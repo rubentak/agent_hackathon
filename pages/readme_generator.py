@@ -32,10 +32,12 @@ st.markdown("""<style>.reportview-container .main .block-container {max-width: 9
 
 
 # --------------------- HOME PAGE -------------------- #
-st.title("README GENERATOR (DOCUNINJA 🎙️📖🥷)")
+st.title("README GENERATOR 📚📖")
 st.write("""Use the power of LLMs with LangChain and OpenAI to scan through your documents. Find information 
 and insight's with lightning speed. 🚀 Create new content with the support of state of the art language models and 
-and voice command your way through your documents. 🎙️""")
+and voice command your way through your documents. 🎙️
+This LangChain Agent searches a directory for markdown files and generates a README.md file with the most important content.
+""")
 st.write("Let's start interacting with GPT-4!")
 
 temp_slider = st.sidebar.slider("Temperature", min_value=0.0, max_value=1.0, value=0.1, step=0.05, key="temperature")

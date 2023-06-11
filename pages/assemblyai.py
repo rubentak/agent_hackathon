@@ -4,35 +4,17 @@
 #%% ---------------------------------------------  IMPORTS  ----------------------------------------------------------#
 import os
 import streamlit as st
-import openai
-from credentials import OPENAI_API_KEY
-from langchain.embeddings.openai import OpenAIEmbeddings
-from langchain.llms import OpenAI
-import pandas as pd
 import tempfile
 from main import rec_streamlit, speak_answer, get_transcript_whisper
-import time
-import en_core_web_sm
-import spacy_streamlit
-from langchain.embeddings.openai import OpenAIEmbeddings
-from langchain.agents import create_csv_agent
-from langchain.embeddings.openai import OpenAIEmbeddings
-
-# Import basis libraries
 from langchain.embeddings.openai import OpenAIEmbeddings
 from streamlit import cache_resource
-from langchain.indexes import VectorstoreIndexCreator
 from langchain.document_loaders import TextLoader
 from langchain.vectorstores import Chroma
-from langchain.text_splitter import CharacterTextSplitter
 from langchain import OpenAI, VectorDBQA
-from langchain.document_loaders import DirectoryLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-import credentials
 from credentials import OPENAI_API_KEY, ASSEMBLYAI_API_KEY
 import pytube
 import requests
-import json
 import time
 
 
@@ -73,11 +55,12 @@ st.set_page_config(page_title="Home", layout="wide")
 st.markdown("""<style>.reportview-container .main .block-container {max-width: 95%;}</style>""", unsafe_allow_html=True)
 
 # --------------------- HOME PAGE -------------------- #
-st.title("LANGCHAIN ASSEMBLY-AGENT (DOCUNINJA 🎙️📖🥷)")
-st.write("""Use the power of LLMs with LangChain and OpenAI to scan through your documents. Find information 
-and insight's with lightning speed. 🚀 Create new content with the support of state of the art language models and 
-and voice command your way through your documents. 🎙️""")
-st.write("Let's start interacting with GPT-4!")
+st.title("LANGCHAIN ASSEMBLYAI-AGENT 🤖")
+st.write("""Use the power of LLMs and Assembly AI to interact with Video and audio files. By uploading a video, audio file or a Youtube link, 
+        you can interact with the content of the file.The video will be transcribed and the text will be used to interact with the LLMs. 
+        Speakers will also be detected""")
+
+st.write("Let's start interacting with AssemblyAI!")
 
 # ----------------- SIDE BAR SETTINGS ---------------- #
 st.sidebar.subheader("Settings:")
@@ -235,14 +218,6 @@ if youtube_link:
       st.write("AI Response:", answer)
       speak_answer(answer, tts_enabled)
       st.success("**Interaction finished**")
-
-
-
-
-
-
-
-
 
 
 # ------------------- FILE HANDLER ------------------- #

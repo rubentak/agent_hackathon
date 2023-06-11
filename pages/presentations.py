@@ -5,7 +5,6 @@ This LangChain Agent creates presentations from different contents.
 #%% ---------------------------------------------  IMPORTS  ----------------------------------------------------------#
 import streamlit as st
 import nbformat
-import openai
 from credentials import OPENAI_API_KEY
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.chat_models import ChatOpenAI
@@ -37,11 +36,11 @@ st.set_page_config(page_title="Home", layout="wide")
 st.markdown("""<style>.reportview-container .main .block-container {max-width: 95%;}</style>""", unsafe_allow_html=True)
 
 # --------------------- HOME PAGE -------------------- #
-st.title("PRESENTATION AGENT (DOCUNINJA 🎙️📖🥷)")
-st.write("""Use the power of LLMs with LangChain and OpenAI to scan through your documents. Find information 
-and insight's with lightning speed. 🚀 Create new content with the support of state of the art language models and 
-and voice command your way through your documents. 🎙️""")
-st.write("Let's start interacting with GPT-4!")
+st.title("PRESENTATION AGENT 📊")
+st.write("""Use the power of LLMs with LangChain and OpenAI to scan through your Notebooks and create a Powerpoint presentation. 
+        Find information and insight's with lightning speed. 🚀 Create new content with the support of state of the art language models and 
+        and voice command your way through your documents. 🎙️""")
+
 
 #%% ---------------------------------------  PREPROCESS DOCUMENTS ----------------------------------------------------#
 def process_and_load_files(files, embeddings):

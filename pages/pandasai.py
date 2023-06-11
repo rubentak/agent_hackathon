@@ -20,7 +20,7 @@ st.set_page_config(page_title="Home", layout="wide")
 st.markdown("""<style>.reportview-container .main .block-container {max-width: 95%;}</style>""", unsafe_allow_html=True)
 
 # --------------------- HOME PAGE -------------------- #
-st.title("PANDAS AI (Chart Generator)")
+st.title("PANDAS AI (Chart Generator) 🐼")
 st.write("""PandasAI is a library that allows you to use the power of language models to interact with your data. Add a file and start creating visuals and insights using only natural language.""")
 st.write("Let's start interacting with PandasAI!")
 
