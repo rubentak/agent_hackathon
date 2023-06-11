@@ -4,23 +4,14 @@
 #%% ----------------------------- IMPORTS  -----------------------------------
 # import libraries
 import streamlit as st
-import pandas as pd
-import numpy as np
 import credentials
 import os
-from audio_recorder_streamlit import audio_recorder
 import openai
 from gtts import gTTS
 import io
-from IPython.display import Audio
-import time
-import en_core_web_sm
-import spacy_streamlit
-from pydub import AudioSegment
-import matplotlib.pyplot as plt
 from audio_recorder_streamlit import audio_recorder
 from IPython.display import Audio
-from langchain.callbacks import get_openai_callback
+import pandas as pd
 
 
 #%% ----------------------------- LANGCHAIN FUNCTIONS -----------------------------------
@@ -70,9 +61,7 @@ def home():
 
     # ------------------ HOME PAGE ------------------
     st.title("MAIN FILE MULTIAGENT 🎙️📖🥷")
-    st.write("""This is a repository that was made for a Hackathon orginized by Lablab.AI. The challenge was to create different types of agents that will carry our several tasks. 
-    
-    Use the power of LLMs with LangChain and OpenAI to scan through your documents. Find information 
+    st.write("""This is a repository that was made for a Hackathon orginized by Lablab.AI. The challenge was to create different types of agents that will carry our several tasks. Use the power of LLMs with LangChain and OpenAI to scan through your documents. Find information 
     and insight's with lightning speed. 🚀 Create new content with the support of state of the art language models and 
     and voice command your way through your documents. 🎙️""")
     st.write("We wills how you 5 different agents that we build\n"
