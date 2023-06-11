@@ -1,4 +1,4 @@
-''' This is the main application file for the CODER application. It contains the main functions and the support
+''' This is the main application file for the RONG application. It contains the main functions and the support
     functions for the application. '''
 
 #%% ----------------------------- IMPORTS  -----------------------------------
@@ -73,7 +73,14 @@ def home():
     st.write("""Use the power of LLMs with LangChain and OpenAI to scan through your documents. Find information 
     and insight's with lightning speed. 🚀 Create new content with the support of state of the art language models and 
     and voice command your way through your documents. 🎙️""")
-    st.write("Let's start interacting with GPT-4!")
+    st.write("We wills how you 5 different agents that we build\n"
+             "1. **AssemblyAI Agent**\n"
+             "2. **PandasAI Agent**\n"
+             "3. **Presentation Agent**\n"
+             "4. **README Agent**\n"
+             "5. **Webscraping generator Agent**\n""")
+
+
 
     # ------------------ SIDE BAR SETTINGS ------------------
     st.sidebar.subheader("Settings:")
