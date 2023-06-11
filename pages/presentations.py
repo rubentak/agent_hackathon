@@ -19,6 +19,7 @@ import spacy_streamlit
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.chains import RetrievalQA
 from pptx import Presentation
+import openai
 from pptx.util import Inches
 
 
