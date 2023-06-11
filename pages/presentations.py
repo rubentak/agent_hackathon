@@ -43,7 +43,7 @@ and insight's with lightning speed. 🚀 Create new content with the support of 
 and voice command your way through your documents. 🎙️""")
 st.write("Let's start interacting with GPT-4!")
 
-#%% ----------------------------- PREPROCESS DOCUMENTS  -----------------------------------
+#%% ---------------------------------------  PREPROCESS DOCUMENTS ----------------------------------------------------#
 def process_and_load_files(files, embeddings):
     """FAISS vector store for the documents"""
     loaded_files = []
@@ -55,12 +55,20 @@ def process_and_load_files(files, embeddings):
                 temp_file.write(file.getvalue())
                 temp_file_path = temp_file.name
 
-            # Load up the file as a doc and split
-            loader = TextLoader(temp_file_path, encoding="utf-8")
-            docs = loader.load_and_split()
-            loaded_files.extend(docs)
-            num_docs_processed += len(docs)
-            print(f"Loaded {file.name}")
+            if file_extension == ".ipynb":
+                # Load up the notebook and extract the text
+                notebook = nbformat.read(temp_file_path, as_version=4)
+                loaded_files.extend([cell.source for cell in notebook.cells if cell.cell_type == "markdown"])
+                num_docs_processed += len(loaded_files)
+                print(f"Loaded {file.name}")
+
+            else:
+                # Load up the file as a doc and split
+                loader = TextLoader(temp_file_path, encoding="utf-8")
+                docs = loader.load_and_split()
+                loaded_files.extend(docs)
+                num_docs_processed += len(docs)
+                print(f"Loaded {file.name}")
 
             # Delete the temporary file
             os.remove(temp_file_path)
@@ -74,7 +82,29 @@ def process_and_load_files(files, embeddings):
         return None, [], 0
 
 
-def create_presentation(notebook, template_path):
+#%% ---------------------------------------  CREATE PRESENTATION -----------------------------------------------------#
+systemprompt = """You are a master at creating short paragraphs for presentations and you either summarize larger
+                content that you get, or elaborate on a short topic that is given in a keyword."""
+
+
+def run_GPT4(systemprompt, prompt, temperature):
+    """Run GPT4 with the prompt and return the response"""
+    openai.api_key = OPENAI_API_KEY
+    completion = openai.ChatCompletion.create(
+        model="gpt-4",
+        temperature=temperature,
+        messages=[
+            {"role": "system", "content": systemprompt},
+            {"role": "user", "content": prompt},
+        ]
+    )
+    answer = completion.choices[0].message.content
+
+    return answer
+
+
+#%% ---------------------------------------  CREATE PRESENTATION -----------------------------------------------------#
+def create_presentation_nb(notebook, template_path):
     prs = Presentation(template_path)
     title_slide_layout = prs.slide_layouts[0]
     content_slide_layout = prs.slide_layouts[4]
@@ -111,14 +141,19 @@ def create_presentation(notebook, template_path):
                         if not line.startswith("### "):
                             content += line.strip() + "\n"
 
-            # Find the existing text shape on the slide and insert the content
+            # Pass the content to GPT-4 for re-creation
+            gpt4_content = run_GPT4(systemprompt, content, temperature=0.5)
+
+            # Find the existing text shape on the slide and insert the GPT-4 generated content
             for shape in slide.shapes:
                 if shape.has_text_frame and not shape.text.startswith("Click to edit"):
                     text_frame = shape.text_frame
-                    text_frame.text = content
+                    text_frame.text = gpt4_content
                     break
 
     return prs
+
+
 
 
 # ----------------- SIDE BAR SETTINGS ---------------- #
@@ -173,6 +208,13 @@ if uploaded_files:
 
                 create_presentation_button = st.button("Create Presentation")
 
+                # --------------------- PRESENTATION --------------------- #
+                # Create presentation with the selected template
+                if create_presentation_button:
+                    prs = create_presentation_nb(nb_content, template_path)
+                    prs.save(output_path)
+                    st.success("Presentation created successfully!")
+
         except Exception as e:
             st.write(f"Error reading {file_extension.upper()} file:", e)
 
@@ -184,13 +226,6 @@ if uploaded_files:
         # Process and load the HTML and Python files into the FAISS index
         docsearch, successfully_loaded_files, num_docs_processed = process_and_load_files(files, embeddings)
         st.write(f"You have {num_docs_processed} documents processed.")
-
-# --------------------- PRESENTATION --------------------- #
-    # Create presentation with the selected template
-    if create_presentation_button:
-        prs = create_presentation(nb_content, template_path)
-        prs.save(output_path)
-        st.success("Presentation created successfully!")
 
 
 # --------------------- USER INPUT --------------------- #
@@ -223,5 +258,9 @@ if audio_bytes or user_input:
     with st.spinner("Fetching answer ..."):
         time.sleep(6)
 
+    qa = RetrievalQA.from_chain_type(llm=llm_doc, chain_type="stuff", retriever=docsearch.as_retriever())
+    answer = qa.run(transcript)
+    st.write(answer)
+    speak_answer(answer, tts_enabled)
+    st.success("**Interaction finished**")
 
-#%% ------------------------------- PATHS ------------------------------- #
