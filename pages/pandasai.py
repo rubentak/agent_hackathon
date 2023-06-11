@@ -20,11 +20,9 @@ st.set_page_config(page_title="Home", layout="wide")
 st.markdown("""<style>.reportview-container .main .block-container {max-width: 95%;}</style>""", unsafe_allow_html=True)
 
 # --------------------- HOME PAGE -------------------- #
-st.title("PANDAS AI (DOCUNINJA 🎙️📖🥷)")
-st.write("""Use the power of LLMs with LangChain and OpenAI to scan through your documents. Find information 
-and insight's with lightning speed. 🚀 Create new content with the support of state of the art language models and 
-and voice command your way through your documents. 🎙️""")
-st.write("Let's start interacting with GPT-4!")
+st.title("PANDAS AI (Chart Generator)")
+st.write("""PandasAI is a library that allows you to use the power of language models to interact with your data. Add a file and start creating visuals and insights using only natural language.""")
+st.write("Let's start interacting with PandasAI!")
 
 # ------------------ SIDE BAR SETTINGS ------------------
 st.sidebar.subheader("Settings:")
